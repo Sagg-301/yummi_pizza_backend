@@ -16,8 +16,11 @@ class OrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->double('total_price');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->string('name',200);
+            $table->string('address',200);
+            $table->string('phone_number',20);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

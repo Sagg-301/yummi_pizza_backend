@@ -1,0 +1,15 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Order extends Model
+{
+    protected $table = 'orders';
+
+    public function items()
+    {
+        return $this->belongsToMany('App\Items','items_to_order')->using('App\ItemOrder');
+    }
+}
