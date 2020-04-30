@@ -18,6 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::prefix('item')->group(function () {
+    Route::get('all', 'ItemController@index');
+    Route::get('{id}', 'ItemController@show');
+});
+
 Route::prefix('order')->group(function () {
     Route::post('store', 'OrderController@store');
 });
