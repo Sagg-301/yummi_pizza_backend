@@ -10,6 +10,6 @@ class Order extends Model
 
     public function items()
     {
-        return $this->belongsToMany('App\Items','items_to_order')->using('App\ItemOrder');
+        return $this->belongsToMany('App\Item','items_to_order')->using('App\ItemOrder');
     }
 }
