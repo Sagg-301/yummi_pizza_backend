@@ -31,19 +31,10 @@ class AuthTest extends TestCase
 
     public function testLogin()
     {
-        $password = Str::random(10);
-        $email = Str::random(10).'@gmail.com';
-
-        $this->json('POST','/api/auth/register',[
-            'name' => Str::random(10),
-            'email' => $email,
-            'password' => $password,
-            'password_confirmation' => $password,
-        ]);
 
         $response = $this->json('POST','/api/auth/login',[
-            'email' => $email,
-            'password' => $password,
+            'email' => "test@testmail.com",
+            'password' => "123456",
         ]);
 
         $response->assertJson(['success'=>true]);

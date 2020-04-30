@@ -13,10 +13,39 @@ class CartTest extends TestCase
      *
      * @return void
      */
-    public function testExample()
+    public function testAddItemToCart()
     {
-        $response = $this->get('/');
+        $login = $this->json('POST','/api/auth/login',[
+            'email' => "test@testmail.com",
+            'password' => "123456",
+        ]);
 
-        $response->assertStatus(200);
+        $token = $login->original['token_type']." ".$login->original['access_token'];
+        $response = $this->withHeaders(['Authorization'=>$token])->json('POST','/api/cart/store',[
+            'items'=>[
+                ['id'=>3, 'quantity'=>1]
+            ]
+        ]);
+
+        $response->assertJson(['success'=>true]);
+    }
+
+    public function testRemoveItemFromCart()
+    {
+        $login = $this->json('POST','/api/auth/login',[
+            'email' => "test@testmail.com",
+            'password' => "123456",
+        ]);
+
+        $token = $login->original['token_type']." ".$login->original['access_token'];
+        $this->withHeaders(['Authorization'=>$token])->json('POST','/api/cart/store',[
+            'items'=>[
+                ['id'=>3, 'quantity'=>1]
+            ]
+        ]);
+
+        $response = $this->withHeaders(['Authorization'=>$token])->json('DELETE','/api/cart/remove_item/3',[]);
+
+        $response->assertJson(['success'=>true]);
     }
 }

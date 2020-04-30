@@ -25,6 +25,7 @@ Route::prefix('order')->group(function () {
 Route::prefix('cart')->group(function () {
     Route::post('store', 'CartController@store')->middleware('auth:api');
     Route::get('show', 'CartController@show')->middleware('auth:api');
+    Route::delete('remove_item/{id}', 'CartController@remove_item')->middleware('auth:api');
 });
 
 Route::prefix('auth')->group(function () {

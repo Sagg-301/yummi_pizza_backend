@@ -8,6 +8,7 @@ use App\Item;
 use App\ItemCart;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -61,13 +62,16 @@ class CartController extends Controller
         });
 
         foreach ($request->items as $key => $value) {
-            $item_cart = new ItemCart();
 
-            $item_cart->item_id = $value['id'];
-            $item_cart->quantity = $value['quantity'];
-            $item_cart->cart_id = $cart->id;
+            if($this->checkIfInCart($cart->items, $value['id'])){
+                $item_cart = new ItemCart();
 
-            $item_cart->save();
+                $item_cart->item_id = $value['id'];
+                $item_cart->quantity = $value['quantity'];
+                $item_cart->cart_id = $cart->id;
+                $item_cart->save();
+            }
+
         }
 
         return response()->json([
@@ -90,37 +94,31 @@ class CartController extends Controller
             ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+    public function remove_item(Request $request, int $id){
+        $cart = Cart::where('user_id',Auth::id())->first();
+        
+        $item_cart = DB::table('items_to_cart')->where([['cart_id','=',$cart->id], ['item_id','=',$id]])->delete();
+
+        if(empty($item_cart)){
+            return response()->json([
+                'success'=>false,
+                'message'=>"This item isn't in your cart",
+            ]);
+        }
+
+        return response()->json([
+            'success'=>true,
+            'message'=>'Item remove successfully',
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    private function checkIfInCart($items, $id){
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        foreach ($items as $key => $value) {
+            if ($value['id'] == $id)
+                return false;
+        }
+
+        return true;
     }
 }
