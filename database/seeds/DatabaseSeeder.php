@@ -90,5 +90,17 @@ class DatabaseSeeder extends Seeder
             'description' => "A medium soda of your choice",
             'image_url' => "https://www.cfacdn.com/img/order/COM/Menu_Refresh/Drinks/Drinks%20PDP/_0000s_0022_Feed_Menu_0000_Drinks_Coca-cola.png",
         ]);
+
+        DB::table('currencies')->insert([
+            'name' => "Dollar",
+            'symbol' => "$",
+            'exchange_rate' => 1,
+        ]);
+
+        DB::table('currencies')->insert([
+            'name' => "Dollar",
+            'symbol' => "€",
+            'exchange_rate' => 1.5,
+            ]);
     }
 }

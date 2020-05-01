@@ -19,6 +19,9 @@ class OrdersTable extends Migration
             $table->string('name',200);
             $table->string('address',200);
             $table->string('phone_number',20);
+            $table->double('delivery_rate');
+            $table->unsignedBigInteger('currency_id');
+            $table->foreign('currency_id')->references('id')->on('currencies');
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
         });
