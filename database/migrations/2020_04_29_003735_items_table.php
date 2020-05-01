@@ -16,6 +16,7 @@ class ItemsTable extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name',80);
+            $table->string('description',300);
             $table->double('price');
             $table->enum('type',['pizza','other']);
             $table->string('image_url',200);
