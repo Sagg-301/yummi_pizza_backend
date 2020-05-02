@@ -19,6 +19,7 @@ class OrderTest extends TestCase
             'name' => 'Test Name',
             'address' => 'Berlin',
             'phone_number' => '+1 123456789',
+            'currency' => 1,
             'items'=>[
                 ['id'=>1, 'quantity'=>2],
                 ['id'=>2, 'quantity'=>1],
@@ -94,5 +95,18 @@ class OrderTest extends TestCase
         $response->assertJson([
             'success' => false
         ]);
+    }
+
+    public function testGetAllOrders()
+    {
+        $login = $this->json('POST','/api/auth/login',[
+            'email' => "test@testmail.com",
+            'password' => "123456",
+        ]);
+
+        $token = $login->original['token_type']." ".$login->original['access_token'];
+        $response = $this->withHeaders(['Authorization'=>$token])->json('GET','/api/order/all');
+
+        $response->assertStatus(200);
     }
 }
