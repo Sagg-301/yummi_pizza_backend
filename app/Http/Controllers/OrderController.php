@@ -18,7 +18,17 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::where('user_id', Auth::id())->get();
+        $response = [];
+
+        foreach($orders as $order) { 
+            array_push($response, [
+                'order'=> $order,
+                'items'=> $order->items
+            ]);
+        }
+
+        return response()->json($response);
     }
 
     /**
@@ -59,7 +69,7 @@ class OrderController extends Controller
         // $currency = Currency::find($request->currency);
 
         
-        $order->user_id = Auth::id() ? Auth::id() : null;
+        $order->user_id = Auth::check() ? Auth::id() : null;
         $order->address = $request->address;
         $order->phone_number = $request->phone_number;
         $order->name =$request->name;
@@ -97,7 +107,17 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        $order = Order::find($id);
+        $total = 0;
+
+        foreach($order->items as $item){
+            $total += $item->price * $item->pivot->quantity;
+        }
+
+        return response()->json([
+            'order'=>$order,
+            'total'=>$total
+        ]);
     }
 
     /**
