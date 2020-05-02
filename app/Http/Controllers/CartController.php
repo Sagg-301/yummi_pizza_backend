@@ -88,9 +88,20 @@ class CartController extends Controller
     public function show()
     {
         $cart = Cart::where('user_id',Auth::id())->first();
+        $response = [];
+
+        foreach ($cart->items as $item) {
+            array_push($response,[
+                'id' => $item->id,
+                'name' => $item->name,
+                'image_url' => $item->image_url,
+                'price' => $item->price,
+                'quantity' => $item->pivot->quantity,
+            ]);
+        }
 
         return response()->json([
-            'items'=>$cart->items
+            'items'=>$response
             ]);
     }
 

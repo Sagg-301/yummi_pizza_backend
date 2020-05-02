@@ -7,6 +7,7 @@ use App\Order;
 use App\Item;
 use App\ItemOrder;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -57,11 +58,13 @@ class OrderController extends Controller
         $order = new Order();
         // $currency = Currency::find($request->currency);
 
+        
+        $order->user_id = Auth::id() ? Auth::id() : null;
         $order->address = $request->address;
         $order->phone_number = $request->phone_number;
         $order->name =$request->name;
         $order->currency_id =$request->currency;
-        $order->delivery_rate =$request->delivery_rate;
+        $order->delivery_rate =5;
 
         $order->save();
 

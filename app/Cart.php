@@ -11,6 +11,8 @@ class Cart extends Model
 
     public function items()
     {
-        return $this->belongsToMany('App\Item','items_to_cart');
+        return $this->belongsToMany('App\Item','items_to_cart')->withPivot([
+            'quantity',
+        ]);
     }
 }
