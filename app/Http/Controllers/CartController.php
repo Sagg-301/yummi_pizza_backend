@@ -90,6 +90,7 @@ class CartController extends Controller
         $cart = Cart::where('user_id',Auth::id())->first();
         $response = [];
 
+        if (!empty($cart))
         foreach ($cart->items as $item) {
             array_push($response,[
                 'id' => $item->id,

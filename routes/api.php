@@ -25,7 +25,7 @@ Route::prefix('item')->group(function () {
 
 Route::prefix('order')->group(function () {
     Route::post('store', 'OrderController@store');
-    Route::get('/{id}', 'OrderController@show');
+    Route::get('get/{id}', 'OrderController@show');
     Route::get('all', 'OrderController@index')->middleware('auth:api');
 });
 

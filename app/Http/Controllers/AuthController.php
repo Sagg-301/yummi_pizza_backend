@@ -36,7 +36,7 @@ class AuthController extends Controller
                     $tokenResult->token->expires_at
                 )->toDateTimeString(),
                 'response' => [
-                    'message'=>"User autheticated successfully",
+                    'message'=>"User authenticated successfully",
                     'user'=>$request->user(),
                 ]
             ]);

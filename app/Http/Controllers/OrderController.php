@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Order;
+use App\Cart;
 use App\Item;
 use App\ItemOrder;
 use Illuminate\Support\Facades\Validator;
@@ -22,9 +23,13 @@ class OrderController extends Controller
         $response = [];
 
         foreach($orders as $order) { 
+            $total = 0;
+            foreach($order->items as $item){
+                $total += $item->price * $item->pivot->quantity;
+            }
             array_push($response, [
                 'order'=> $order,
-                'items'=> $order->items
+                'total' => $total
             ]);
         }
 
@@ -68,8 +73,7 @@ class OrderController extends Controller
         $order = new Order();
         // $currency = Currency::find($request->currency);
 
-        
-        $order->user_id = Auth::check() ? Auth::id() : null;
+        $order->user_id = $request->user_id ? $request->user_id : null;
         $order->address = $request->address;
         $order->phone_number = $request->phone_number;
         $order->name =$request->name;
@@ -88,6 +92,10 @@ class OrderController extends Controller
             $item_order->quantity = $value['quantity'];
 
             $item_order->save();
+        }
+
+        if($request->user_id){
+            $cart = Cart::where('user_id',$request->user_id)->delete();
         }
 
         return response()->json([

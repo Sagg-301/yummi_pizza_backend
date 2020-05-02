@@ -14,8 +14,10 @@ class ItemsToCartTable extends Migration
     public function up()
     {
         Schema::create('items_to_cart', function (Blueprint $table) {
-            $table->foreignId('cart_id')->references('id')->on('cart');
-            $table->foreignId('item_id')->references('id')->on('items');
+            $table->foreignId('cart_id')->references('id')->on('cart')
+            ->onDelete('cascade');;
+            $table->foreignId('item_id')->references('id')->on('items')
+            ->onDelete('cascade');;
             $table->integer('quantity');
         });
     }

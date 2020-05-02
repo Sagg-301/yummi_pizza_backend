@@ -102,5 +102,11 @@ class DatabaseSeeder extends Seeder
             'symbol' => "€",
             'exchange_rate' => 1.5,
             ]);
-    }
+
+        DB::table('users')->insert([
+            'name' => "Test User",
+            'email' => 'test@testmail.com',
+            'password' => bcrypt('123456'),
+        ]);
+}
 }
