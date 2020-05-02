@@ -15,6 +15,7 @@ This app is a test for a postion in Innoscript, is the backend of a pizza shoppi
 ## Instructions to deploy locally
 
 The following commands should be executed as shown:
+    
     -** composer install //Command for Installing needed libraries
     -** php artisan migrate db:fresh --seed //Command for deploying database and seed the tables that need to be seeded
     -** php artisan passport:install --force //Command for installing the needed access keys
