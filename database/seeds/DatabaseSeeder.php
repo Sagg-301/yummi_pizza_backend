@@ -98,7 +98,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('currencies')->insert([
-            'name' => "Dollar",
+            'name' => "Euro",
             'symbol' => "€",
             'exchange_rate' => 1.5,
             ]);
